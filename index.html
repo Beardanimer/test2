@@ -301,6 +301,7 @@
             background: rgba(0, 0, 0, 0.8);
             z-index: 2000;
             backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .modal-content {
@@ -800,7 +801,37 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-    </style>
+    
+@media (max-width: 992px) {
+  .header-btn-text {
+    display: none !important;
+  }
+
+  .header-btn i,
+  .theme-toggle i {
+    font-size: 20px;
+  }
+
+  .theme-toggle {
+    padding: 10px;
+  }
+
+  .header-btn {
+    padding: 10px 12px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 45px;
+    height: 45px;
+  }
+
+  .header-actions {
+    gap: 10px;
+  }
+}
+
+</style>
 </head>
 <body>
     <!-- TOP SOCIAL BAR -->
@@ -831,42 +862,96 @@
         </div>
     </div>
 
-    <!-- MAIN HEADER -->
+    <!-- MAIN HEADER (updated) -->
     <header class="main-header" role="banner">
         <div class="container">
             <div class="header-content">
                 <a href="#" class="logo" onclick="location.reload()" tabindex="0" aria-label="LeBYo PC Home">LeBYo PC</a>
-                
-                <div class="search-container">
-                    <div class="search-box">
-                        <input type="text" class="search-input" placeholder="�� Search Gaming PCs, Components..." id="searchInput" aria-label="Search" tabindex="0">
-                        <button class="search-btn" onclick="performSearch()" aria-label="Search" tabindex="0">
-                            <i class="fas fa-search"></i>
-                        </button>
+                <!-- AMAZON-LIKE ADDRESS SELECTOR BUTTON -->
+                <button class="location-selector" onclick="openAddressModal()" aria-label="Select delivery address" tabindex="0">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="location-text" id="selectedAddressText">Deliver to Select Address</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="location-search-wrapper">
+                    <!-- Location Selector Button -->
+                    
+                    
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="🔍 Search Gaming PCs, Components..." id="searchInput" aria-label="Search" tabindex="0">
+                            <button class="search-btn" onclick="performSearch()" aria-label="Search" tabindex="0">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                
                 <div class="header-actions">
                     <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" aria-label="Toggle Dark/Light Mode" tabindex="0">
-                        🌙 Dark Mode
+                        <i class="fas fa-moon"></i>
+                        <span class="header-btn-text">Dark Mode</span>
                     </button>
-                    
                     <a href="#" class="header-btn" onclick="showLogin()" aria-label="Login" tabindex="0">
-                        <i class="fas fa-user"></i> Login
+                        <i class="fas fa-user"></i>
+                        <span class="header-btn-text">Login</span>
                     </a>
-                    
                     <a href="#" class="header-btn" onclick="toggleCart()" aria-label="View Cart" tabindex="0">
-                        <i class="fas fa-shopping-cart"></i> Cart
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="header-btn-text">Cart</span>
                         <span class="cart-count" id="cartCount">0</span>
                     </a>
-                    
                     <a href="#" class="header-btn" onclick="openPCBuilder()" aria-label="Custom Build" tabindex="0">
-                        <i class="fas fa-cogs"></i> Custom Build
+                        <i class="fas fa-cogs"></i>
+                        <span class="header-btn-text">Custom Build</span>
                     </a>
                 </div>
             </div>
         </div>
     </header>
+
+    <style>
+    @media (max-width: 992px) {
+      .header-content {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+      }
+      .logo {
+        display: block !important;
+        font-size: 2rem;
+        margin: 0;
+        flex: 1 1 auto;
+        min-width: 0;
+        white-space: nowrap;
+        z-index: 13001;
+      }
+      /* .mobile-hamburger { ... } (can be left or removed if not used) */
+      /* FIX: Do NOT hide .search-container or .header-actions on small screens */
+      /* .search-container, .header-actions {
+        display: none !important;
+      } */
+      .mobile-nav-menu {
+        z-index: 14000 !important;
+        left: -100vw;
+        transition: left 0.3s cubic-bezier(0.4,0,0.2,1);
+      }
+      .mobile-nav-menu.open {
+        left: 0 !important;
+      }
+      .mobile-nav-overlay.open {
+        display: block !important;
+        z-index: 13999 !important;
+      }
+    }
+    @media (min-width: 993px) {
+      .mobile-hamburger {
+        display: none !important;
+      }
+    }
+    </style>
 
     <!-- WORLD'S BEST PROFESSIONAL NAVIGATION -->
     <nav class="professional-navigation" aria-label="Main Navigation">
@@ -876,7 +961,7 @@
                 <i class="fas fa-bars"></i>
             </button>
 
-            <div class="nav-wrapper" role="menubar">
+            <div class="nav-wrapper">
                 <!-- Categories Dropdown (Red Background) -->
                 <div class="nav-item categories-dropdown" role="none">
                     <button class="nav-btn categories-btn" onclick="toggleDropdown('categoriesDropdown')" aria-haspopup="true" aria-expanded="false" aria-controls="categoriesDropdown" tabindex="0">
@@ -1111,55 +1196,55 @@
         </div>
     </nav>
 
-    <!-- Mobile Navigation Menu -->
+    <!-- MOBILE NAV MENU (ensure categories/links always show) -->
     <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
     <div class="mobile-nav-menu" id="mobileNavMenu">
-        <div class="mobile-nav-header">
-            <h3>LeBYo PC Menu</h3>
-            <button class="mobile-nav-close" onclick="toggleMobileMenu()" title="Close Menu">×</button>
+      <div class="mobile-nav-header">
+        <h3>LeBYo PC Menu</h3>
+        <button class="mobile-nav-close" onclick="toggleMobileMenu()" title="Close Menu">×</button>
+      </div>
+      <div class="mobile-nav-items">
+        <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-bars"></i> Categories</button>
+        <div class="mobile-nav-dropdown" style="display:none;">
+          <a href="#" class="dropdown-link">Processors</a>
+          <a href="#" class="dropdown-link">Graphics Cards</a>
+          <a href="#" class="dropdown-link">Storage</a>
+          <a href="#" class="dropdown-link">Monitors</a>
         </div>
-        <div class="mobile-nav-items">
-            <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-bars"></i> Categories</button>
-            <div class="mobile-nav-dropdown">
-                <a href="#" class="dropdown-link">Processors</a>
-                <a href="#" class="dropdown-link">Graphics Cards</a>
-                <a href="#" class="dropdown-link">Storage</a>
-                <a href="#" class="dropdown-link">Monitors</a>
-            </div>
-            <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-gamepad"></i> Gaming Gears</button>
-            <div class="mobile-nav-dropdown">
-                <a href="#" class="dropdown-link">Keyboards</a>
-                <a href="#" class="dropdown-link">Mice</a>
-                <a href="#" class="dropdown-link">Headsets</a>
-                <a href="#" class="dropdown-link">Chairs</a>
-            </div>
-            <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-desktop"></i> Store</button>
-            <div class="mobile-nav-dropdown">
-                <a href="#" class="dropdown-link">Hot Deals</a>
-                <a href="#" class="dropdown-link">Featured</a>
-                <a href="#" class="dropdown-link">Brands</a>
-                <a href="#" class="dropdown-link">Special</a>
-            </div>
-            <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-tools"></i> Build Your PC</button>
-            <div class="mobile-nav-dropdown">
-                <a href="#" class="dropdown-link" onclick="openPCBuilder();toggleMobileMenu();">Custom PC Builder</a>
-                <a href="#" class="dropdown-link">Compatibility Checker</a>
-                <a href="#" class="dropdown-link">Performance Calculator</a>
-                <a href="#" class="dropdown-link">Saved Builds</a>
-            </div>
-            <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-gift"></i> Merchandise</button>
-            <div class="mobile-nav-dropdown">
-                <a href="#" class="dropdown-link">Apparel</a>
-                <a href="#" class="dropdown-link">Collectibles</a>
-                <a href="#" class="dropdown-link">Tech Accessories</a>
-                <a href="#" class="dropdown-link">Gift Items</a>
-            </div>
-            <a class="mobile-nav-item" href="#" onclick="toggleCart();toggleMobileMenu();"><i class="fas fa-shopping-cart"></i> Cart</a>
-            <a class="mobile-nav-item" href="#" onclick="showLogin();toggleMobileMenu();"><i class="fas fa-user"></i> Login</a>
-            <a class="mobile-nav-item" href="#" onclick="openCompareModal();toggleMobileMenu();"><i class="fas fa-balance-scale"></i> Compare</a>
-            <a class="mobile-nav-item" href="#" onclick="toggleAIChat();toggleMobileMenu();"><i class="fas fa-headset"></i> Live Support</a>
-            <a class="mobile-nav-item" href="#" onclick="showOrderTracking();toggleMobileMenu();"><i class="fas fa-truck"></i> Track Order</a>
+        <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-gamepad"></i> Gaming Gears</button>
+        <div class="mobile-nav-dropdown" style="display:none;">
+          <a href="#" class="dropdown-link">Keyboards</a>
+          <a href="#" class="dropdown-link">Mice</a>
+          <a href="#" class="dropdown-link">Headsets</a>
+          <a href="#" class="dropdown-link">Chairs</a>
         </div>
+        <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-desktop"></i> Store</button>
+        <div class="mobile-nav-dropdown" style="display:none;">
+          <a href="#" class="dropdown-link">Hot Deals</a>
+          <a href="#" class="dropdown-link">Featured</a>
+          <a href="#" class="dropdown-link">Brands</a>
+          <a href="#" class="dropdown-link">Special</a>
+        </div>
+        <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-tools"></i> Build Your PC</button>
+        <div class="mobile-nav-dropdown" style="display:none;">
+          <a href="#" class="dropdown-link" onclick="openPCBuilder();toggleMobileMenu();">Custom PC Builder</a>
+          <a href="#" class="dropdown-link">Compatibility Checker</a>
+          <a href="#" class="dropdown-link">Performance Calculator</a>
+          <a href="#" class="dropdown-link">Saved Builds</a>
+        </div>
+        <button class="mobile-nav-item" onclick="toggleMobileDropdown(this)"><i class="fas fa-gift"></i> Merchandise</button>
+        <div class="mobile-nav-dropdown" style="display:none;">
+          <a href="#" class="dropdown-link">Apparel</a>
+          <a href="#" class="dropdown-link">Collectibles</a>
+          <a href="#" class="dropdown-link">Tech Accessories</a>
+          <a href="#" class="dropdown-link">Gift Items</a>
+        </div>
+        <a class="mobile-nav-item" href="#" onclick="toggleCart();toggleMobileMenu();"><i class="fas fa-shopping-cart"></i> Cart</a>
+        <a class="mobile-nav-item" href="#" onclick="showLogin();toggleMobileMenu();"><i class="fas fa-user"></i> Login</a>
+        <a class="mobile-nav-item" href="#" onclick="openCompareModal();toggleMobileMenu();"><i class="fas fa-balance-scale"></i> Compare</a>
+        <a class="mobile-nav-item" href="#" onclick="toggleAIChat();toggleMobileMenu();"><i class="fas fa-headset"></i> Live Support</a>
+        <a class="mobile-nav-item" href="#" onclick="showOrderTracking();toggleMobileMenu();"><i class="fas fa-truck"></i> Track Order</a>
+      </div>
     </div>
 
     <style>
@@ -3332,6 +3417,203 @@
       }
     }
     document.getElementById('mobileNavOverlay').onclick = toggleMobileMenu;
+    </script>
+
+    <!-- AMAZON-LIKE ADDRESS MODAL -->
+    <div class="modal" id="addressModal">
+      <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-header" style="background: var(--red-gradient); color: white;">
+          <h2 class="modal-title" style="font-size: 22px;">Select Delivery Address</h2>
+          <button class="close-btn" onclick="closeAddressModal()">&times;</button>
+        </div>
+        <div class="builder-content" style="display: block; padding: 30px;">
+          <div id="addressListContainer"></div>
+          <hr style="margin: 25px 0;">
+          <form id="addressForm" onsubmit="saveAddress(event)" autocomplete="off">
+            <h4 style="margin-bottom: 10px; color: var(--red-primary);">Add New Address</h4>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <input type="text" id="addressName" placeholder="Full Name" required style="padding: 10px; border-radius: 6px; border: 1.5px solid var(--border-color);">
+              <input type="text" id="addressPhone" placeholder="Phone Number" required pattern="[0-9]{10}" maxlength="10" style="padding: 10px; border-radius: 6px; border: 1.5px solid var(--border-color);">
+              <input type="text" id="addressPincode" placeholder="Pincode" required pattern="[0-9]{6}" maxlength="6" style="padding: 10px; border-radius: 6px; border: 1.5px solid var(--border-color);">
+              <input type="text" id="addressLine" placeholder="Address (House No, Street, etc.)" required style="padding: 10px; border-radius: 6px; border: 1.5px solid var(--border-color);">
+              <input type="text" id="addressCity" placeholder="City" required style="padding: 10px; border-radius: 6px; border: 1.5px solid var(--border-color);">
+              <input type="text" id="addressState" placeholder="State" required style="padding: 10px; border-radius: 6px; border: 1.5px solid var(--border-color);">
+              <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Save Address</button>
+            </div>
+            <input type="hidden" id="editAddressIndex">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <style>
+    .location-selector {
+        background: var(--secondary-bg);
+        border: 2px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 8px 18px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        margin-right: 15px;
+    }
+    .location-selector:hover {
+        border-color: var(--red-primary);
+        color: var(--red-primary);
+    }
+    #addressModal .modal-content {
+        max-width: 500px;
+        width: 95vw;
+        border-radius: 18px;
+        overflow: hidden;
+    }
+    #addressListContainer {
+        margin-bottom: 10px;
+    }
+    .address-card {
+        background: var(--secondary-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        padding: 15px 18px;
+        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        position: relative;
+    }
+    .address-card.selected {
+        border-color: var(--red-primary);
+        background: var(--accent-bg);
+    }
+    .address-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 6px;
+    }
+    .address-actions button {
+        background: var(--red-gradient);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 12px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .address-actions button.edit {
+        background: var(--red-secondary);
+    }
+    .address-actions button.delete {
+        background: #333;
+    }
+    .address-actions button.selected {
+        background: var(--red-primary);
+        font-weight: bold;
+    }
+    </style>
+
+    <script>
+    // AMAZON-LIKE ADDRESS SELECTOR LOGIC
+    let addresses = JSON.parse(localStorage.getItem('lebyopc_addresses')) || [];
+    let selectedAddressIndex = localStorage.getItem('lebyopc_selected_address_index');
+
+    function openAddressModal() {
+        document.getElementById('addressModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        renderAddressList();
+        clearAddressForm();
+    }
+    function closeAddressModal() {
+        document.getElementById('addressModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+        clearAddressForm();
+    }
+    function renderAddressList() {
+        const container = document.getElementById('addressListContainer');
+        if (!addresses.length) {
+            container.innerHTML = `<div style='color:var(--text-secondary);text-align:center;'>No saved addresses. Add a new address below.</div>`;
+            return;
+        }
+        container.innerHTML = addresses.map((addr, idx) => `
+            <div class="address-card${selectedAddressIndex == idx ? ' selected' : ''}">
+                <div><strong>${addr.name}</strong> (${addr.phone})</div>
+                <div>${addr.addressLine}, ${addr.city}, ${addr.state} - ${addr.pincode}</div>
+                <div class="address-actions">
+                    <button onclick="selectAddress(${idx})" class="${selectedAddressIndex == idx ? 'selected' : ''}">Deliver Here</button>
+                    <button onclick="editAddress(${idx})" class="edit">Edit</button>
+                    <button onclick="deleteAddress(${idx})" class="delete">Delete</button>
+                </div>
+            </div>
+        `).join('');
+    }
+    function saveAddress(e) {
+        e.preventDefault();
+        const name = document.getElementById('addressName').value.trim();
+        const phone = document.getElementById('addressPhone').value.trim();
+        const pincode = document.getElementById('addressPincode').value.trim();
+        const addressLine = document.getElementById('addressLine').value.trim();
+        const city = document.getElementById('addressCity').value.trim();
+        const state = document.getElementById('addressState').value.trim();
+        const editIdx = document.getElementById('editAddressIndex').value;
+        if (editIdx !== '') {
+            addresses[editIdx] = { name, phone, pincode, addressLine, city, state };
+        } else {
+            addresses.push({ name, phone, pincode, addressLine, city, state });
+        }
+        localStorage.setItem('lebyopc_addresses', JSON.stringify(addresses));
+        renderAddressList();
+        clearAddressForm();
+    }
+    function selectAddress(idx) {
+        selectedAddressIndex = idx;
+        localStorage.setItem('lebyopc_selected_address_index', idx);
+        updateSelectedAddressText();
+        renderAddressList();
+        closeAddressModal();
+    }
+    function editAddress(idx) {
+        const addr = addresses[idx];
+        document.getElementById('addressName').value = addr.name;
+        document.getElementById('addressPhone').value = addr.phone;
+        document.getElementById('addressPincode').value = addr.pincode;
+        document.getElementById('addressLine').value = addr.addressLine;
+        document.getElementById('addressCity').value = addr.city;
+        document.getElementById('addressState').value = addr.state;
+        document.getElementById('editAddressIndex').value = idx;
+    }
+    function deleteAddress(idx) {
+        addresses.splice(idx, 1);
+        if (selectedAddressIndex == idx) {
+            selectedAddressIndex = null;
+            localStorage.removeItem('lebyopc_selected_address_index');
+        } else if (selectedAddressIndex > idx) {
+            selectedAddressIndex--;
+            localStorage.setItem('lebyopc_selected_address_index', selectedAddressIndex);
+        }
+        localStorage.setItem('lebyopc_addresses', JSON.stringify(addresses));
+        renderAddressList();
+        updateSelectedAddressText();
+    }
+    function clearAddressForm() {
+        document.getElementById('addressForm').reset();
+        document.getElementById('editAddressIndex').value = '';
+    }
+    function updateSelectedAddressText() {
+        const el = document.getElementById('selectedAddressText');
+        if (addresses.length && selectedAddressIndex !== null && addresses[selectedAddressIndex]) {
+            const addr = addresses[selectedAddressIndex];
+            el.textContent = `Deliver to ${addr.name}, ${addr.pincode}`;
+        } else {
+            el.textContent = 'Deliver to Select Address';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateSelectedAddressText();
+    });
     </script>
 
 </body>
