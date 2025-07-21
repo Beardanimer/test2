@@ -1660,62 +1660,78 @@
         
         /* Tablet */
         @media (max-width: 992px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px 10px;
-            }
+  .header-content {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
 
-            .nav-left {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
+  .search-container {
+    flex: 1 1 100%;
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+  }
 
-            .nav-right {
-                width: 100%;
-                justify-content: center;
-                gap: 10px;
-                flex-wrap: wrap;
-            }
-            
-            .nav-btn {
-                font-size: 11px;
-                padding: 8px 12px;
-                white-space: nowrap;
-            }
-            
-            .premium-nav-btn {
-                padding: 8px 12px !important;
-                font-size: 11px;
-                min-width: auto;
-            }
-        }
+  .header-actions {
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    order: 2;
+  }
 
-        /* Mobile Large */
-        @media (max-width: 768px) {
-            .mobile-hamburger {
-                display: block;
-            }
+  .theme-toggle,
+  .header-btn {
+    padding: 10px;
+    border-radius: 50%;
+    min-width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-            .nav-container {
-                display: none;
-            }
+  .header-btn-text {
+    display: none !important;
+  }
 
-            .navigation {
-                padding: 10px 0;
-            }
+  .logo {
+    flex: 1 1 auto;
+    font-size: 1.5rem;
+    white-space: nowrap;
+  }
 
-            .nav-left {
-                display: none;
-            }
+  .location-selector {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+  }
 
-            .nav-right {
-                display: none;
-            }
-        }
-        
+  .location-text {
+    display: none;
+  }
+
+  .header-content > * {
+    flex-shrink: 1;
+  }
+
+  .search-input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .search-btn {
+    padding: 10px 12px;
+  }
+}
+
         /* Mobile Medium */
         @media (max-width: 576px) {
             .nav-container {
